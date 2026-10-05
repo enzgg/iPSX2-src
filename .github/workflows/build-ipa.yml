@@ -45,13 +45,17 @@ jobs:
       - name: Install build tools
         run: |
           brew update --quiet
-          brew install cmake xcbeautify || true
+          brew install cmake xcbeautify ccache || true
+
 
       # ──────────────────────────────────────────────────────────────────────────
       # 4. ccache
       # ──────────────────────────────────────────────────────────────────────────
       - name: Setup ccache
         uses: hendrikmuhs/ccache-action@v1.2
+        timeout-minutes: 10
+        continue-on-error: true
+
         with:
           key: ${{ runner.os }}-${{ runner.arch }}-${{ github.ref_name }}
           restore-keys: |
